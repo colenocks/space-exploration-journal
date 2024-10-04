@@ -1,5 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Home from "./components/Home";
+import Page1 from "./components/Page1";
+
 function App() {
-  return <main className='min-h-screen bg-gray-950 font-mono'>Hello, NASA Explorer!</main>;
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={<Dashboard />}>
+          <Route index element={<Home />} />
+          <Route path='page1' element={<Page1 />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
