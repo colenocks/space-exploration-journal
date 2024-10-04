@@ -1,5 +1,5 @@
 {
-  "name": "nasa-data-explorer",
+  "name": "nasa-data-explorer-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
