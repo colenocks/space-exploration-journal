@@ -1,31 +1,53 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiFileText } from "react-icons/fi";
+import { FiHome, FiArrowRightCircle, FiArrowLeftCircle, FiFileText } from "react-icons/fi";
 
 const Navigation = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className='bg-gray-900 mx-1 rounded-lg text-gray-100 h-full w-60 p-5 shadow-xl'>
-      <h2 className='text-2xl mb-6 text-left font-bold'>Dashboard</h2>
-      <ul className='space-y-3'>
-        <li className=''>
+    <div
+      className={`bg-gray-900 text-gray-100 mx-1 flex-shrink-0 h-full px-5 py-6 shadow-xl flex flex-col items-start rounded-lg transition-width duration-300 ${
+        isCollapsed ? "w-16" : "w-52"
+      }`}>
+      {/* Toggle Button */}
+      <button onClick={toggleSidebar} className='text-gray-100 mb-4 focus:outline-none'>
+        {isCollapsed ? <FiArrowRightCircle size={24} /> : <FiArrowLeftCircle size={24} />}
+      </button>
+
+      {/* Sidebar Content */}
+      <h2 className={`text-2xl mb-6 text-left font-bold transition-opacity duration-300 ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Dashboard</h2>
+
+      <ul className='space-y-3 w-full'>
+        <li>
           <Link
             to='/'
-            className={`flex items-center transition-colors duration-300 ${isActive("/") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"}`}>
-            <FiHome size={20} />
-            <span className={`ml-3 mt-0.5 transition-opacity duration-300`}>Home</span>
+            className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
+              isActive("/") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
+            }`}>
+            <div>
+              <FiHome size={20} />
+            </div>
+            <span className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Home</span>
           </Link>
         </li>
-        <li className=''>
+        <li>
           <Link
             to='/page1'
-            className={`flex items-center transition-colors duration-300 ${
+            className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
               isActive("/page1") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
             }`}>
-            <FiFileText size={20} />
-            <span className={`ml-3 mt-0.5 transition-opacity duration-300`}>Page 1</span>
+            <div>
+              <FiFileText size={20} />
+            </div>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Page 1</span>
           </Link>
         </li>
       </ul>
