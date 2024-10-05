@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import PlanTrip from "./pages/PlanTrip";
-import TripsJournal from "./pages/TripsJournal";
-import TripDetails from "./pages/TripDetails";
+import PlanetList from "./pages/PlanetList";
+import PlanetDetails from "./pages/PlanetDetails";
 
 function App() {
   return (
@@ -12,8 +12,8 @@ function App() {
         <Route path='/' element={<Dashboard />}>
           <Route index element={<Home />} />
           <Route path='/plan' element={<PlanTrip />} />
-          <Route path='/trips' element={<TripsJournal />} />
-          <Route path='/trip/:tripName' element={<TripDetails />} />
+          <Route path='/planets' element={<PlanetList />} />
+          <Route path='/planets/:planetName' element={<PlanetDetails />} />
         </Route>
       </Routes>
     </Router>

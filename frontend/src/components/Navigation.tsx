@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiArrowRightCircle, FiArrowLeftCircle, FiPlayCircle, FiBookmark } from "react-icons/fi";
+import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
+import { FaRocket, FaGalacticRepublic, FaHouseFlag } from "react-icons/fa6";
 
 const Navigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -33,7 +34,7 @@ const Navigation = () => {
               isActive("/") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
             }`}>
             <div>
-              <FiHome size={20} />
+              <FaHouseFlag size={20} />
             </div>
             <span className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Home</span>
           </Link>
@@ -45,21 +46,21 @@ const Navigation = () => {
               isActive("/plan") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
             }`}>
             <div>
-              <FiPlayCircle size={20} />
+              <FaRocket size={20} />
             </div>
             <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Plan Trip</span>
           </Link>
         </li>
         <li>
           <Link
-            to='/trips'
+            to='/planets'
             className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
-              isActive("/trips") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
+              isActive("/planets") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
             }`}>
             <div>
-              <FiBookmark size={20} />
+              <FaGalacticRepublic size={20} />
             </div>
-            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Trips Journal</span>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Planet List</span>
           </Link>
         </li>
       </ul>
