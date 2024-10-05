@@ -1,10 +1,11 @@
 import Header from "@/components/Header";
+import PlanetSelector from "@/components/PlanetSelector";
 
 const PlanTrip = () => {
   return (
     <div>
       <Header title={"Plan Your Trip"} />
-      <p>Choose what planet you want to go to.</p>
+      <PlanetSelector />
     </div>
   );
 };
