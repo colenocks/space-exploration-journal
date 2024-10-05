@@ -1,6 +1,6 @@
-import Header from "./Header";
+import Header from "@/components/Header";
 
-const Page1 = () => {
+const PlanTrip = () => {
   return (
     <div>
       <Header title={"Page 1"} />
@@ -9,4 +9,4 @@ const Page1 = () => {
   );
 };
 
-export default Page1;
+export default PlanTrip;

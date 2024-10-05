@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiArrowRightCircle, FiArrowLeftCircle, FiFileText } from "react-icons/fi";
+import { FiHome, FiArrowRightCircle, FiArrowLeftCircle, FiPlayCircle, FiBookmark } from "react-icons/fi";
 
 const Navigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -25,7 +25,7 @@ const Navigation = () => {
       {/* Sidebar Content */}
       <h2 className={`text-2xl mb-6 text-left font-bold transition-opacity duration-300 ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Dashboard</h2>
 
-      <ul className='space-y-3 w-full'>
+      <ul className='space-y-4 w-full'>
         <li>
           <Link
             to='/'
@@ -40,14 +40,26 @@ const Navigation = () => {
         </li>
         <li>
           <Link
-            to='/page1'
+            to='/plan'
             className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
-              isActive("/page1") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
+              isActive("/plan") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
             }`}>
             <div>
-              <FiFileText size={20} />
+              <FiPlayCircle size={20} />
             </div>
-            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Page 1</span>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Plan Trip</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to='/trips'
+            className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
+              isActive("/trips") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
+            }`}>
+            <div>
+              <FiBookmark size={20} />
+            </div>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Trips Journal</span>
           </Link>
         </li>
       </ul>
