@@ -3,8 +3,8 @@ import Header from "@/components/Header";
 const PlanTrip = () => {
   return (
     <div>
-      <Header title={"Page 1"} />
-      <p>This is the content of Page 1.</p>
+      <Header title={"Plan Your Trip"} />
+      <p>Choose what planet you want to go to.</p>
     </div>
   );
 };
