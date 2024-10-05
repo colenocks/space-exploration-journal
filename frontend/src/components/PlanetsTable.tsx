@@ -6,7 +6,7 @@ type IProps = {
 
 const PlanetsTable = ({ planets }: IProps) => {
   return (
-    <div className='p-4 rounded-lg shadow'>
+    <div className='p-4 rounded-lg'>
       <table className='w-full border-collapse'>
         <thead>
           <tr className='text-left border-b'>

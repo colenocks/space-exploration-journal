@@ -12,8 +12,8 @@ const PlanetDetails = () => {
 
   return (
     <div>
-      <Header title={planet.name} />
-      <div className='p-6 rounded-lg shadow '>
+      <div className='rounded-lg'>
+        <h2 className='text-3xl font-bold text-white mb-6'>{planet.name}</h2>
         <p>
           <strong>Distance from Sun:</strong> {planet.distanceFromSun}
         </p>

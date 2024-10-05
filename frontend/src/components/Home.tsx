@@ -1,14 +1,10 @@
-import Header from "./Header";
-
 const Home = () => {
   return (
     <div>
-      <Header title={"Welcome to the Planet Explorer"} />
-
       <div className='lg:px-8 lg:pb-8 flex flex-col items-center justify-center'>
-        <p className='text-lg text-gray-200 text-center mb-8 max-w-2xl'>
+        <h2 className='text-2xl text-gray-200 text-center mb-8 max-w-2xl'>
           Explore the vast reaches of our solar system and gather information for your next big story.
-        </p>
+        </h2>
 
         <div className='bg-gray-800 shadow-lg rounded-lg p-6 max-w-xl w-full'>
           <h2 className='text-2xl font-semibold text-white mb-4'>Planning Your Journey</h2>
