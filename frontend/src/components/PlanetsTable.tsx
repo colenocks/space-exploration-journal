@@ -14,7 +14,7 @@ const PlanetsTable = ({ planets }: IProps) => {
               Name
             </th>
             <th scope='col' className='px-3 py-3.5 text-left font-semibold text-white'>
-              Distance from Sun
+              English Name
             </th>
             <th className='px-3 py-3.5 text-left font-semibold text-white'>Radius</th>
             <th className='px-3 py-3.5 text-left font-semibold text-white'>Gravity</th>
@@ -24,14 +24,13 @@ const PlanetsTable = ({ planets }: IProps) => {
           {planets.map((planet, index) => (
             <tr key={index} className='hover:bg-gray-800'>
               <td className='py-4 pl-4 pr-3 font-medium text-gray-300 sm:pl-0'>
-                <Link to={`/planet/${planet.name.toLowerCase()}`} className='text-cyan-500 hover:underline'>
+                <Link to={`/planet/${planet.id}`} className='text-cyan-500 hover:underline'>
                   {planet.name}
                 </Link>
               </td>
-              <td className='py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0'>{planet.distanceFromSun}</td>
-              <td className='py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0'>{planet.radius}</td>
+              <td className='py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0'>{planet.englishName}</td>
+              <td className='py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0'>{planet.meanRadius}</td>
               <td className='py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0'>{planet.gravity}</td>
-              {/* <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-400'>02 Jan 06 15:04 MST</td> */}
             </tr>
           ))}
         </tbody>

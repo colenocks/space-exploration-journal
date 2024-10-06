@@ -1,13 +1,33 @@
-import Header from "@/components/Header";
 import { useParams } from "react-router-dom";
-import { planets } from "@/data/planets";
+import { useEffect, useState } from "react";
+
+async function fetchPlanetData(id: string) {
+  const response = await fetch(`/api/planet/${id}`);
+  const json = await response.json();
+  return json;
+}
+
+interface IPlanet {
+  [key: string]: string;
+}
 
 const PlanetDetails = () => {
-  const { planetName } = useParams();
-  const planet = planets.find(p => p.name.toLowerCase() === planetName);
+  const [planet, setPlanetData] = useState<IPlanet>({});
+
+  const { id } = useParams();
+  useEffect(() => {
+    if (!id) return;
+    fetchPlanetData(id)
+      .then(data => {
+        setPlanetData(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   if (!planet) {
-    return <div className='text-red-500'>planet not found!</div>;
+    return <div className='text-red-500'>Planet not found!</div>;
   }
 
   return (
@@ -15,13 +35,19 @@ const PlanetDetails = () => {
       <div className='rounded-lg'>
         <h2 className='text-3xl font-bold text-white mb-6'>{planet.name}</h2>
         <p>
-          <strong>Distance from Sun:</strong> {planet.distanceFromSun}
+          <strong>English Name:</strong> {planet.englishName}
         </p>
         <p>
-          <strong>Radius:</strong> {planet.radius}
+          <strong>Mean Radius:</strong> {planet.meanRadius}
         </p>
         <p>
           <strong>Gravity:</strong> {planet.gravity}
+        </p>
+        <p>
+          <strong>Discovery Date:</strong> {planet.discoveryDate}
+        </p>
+        <p>
+          <strong>Discovered By:</strong> {planet.discoveredBy}
         </p>
       </div>
     </div>

@@ -13,7 +13,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/plan' element={<PlanTrip />} />
           <Route path='/planets' element={<PlanetList />} />
-          <Route path='/planet/:planetName' element={<PlanetDetails />} />
+          <Route path='/planet/:id' element={<PlanetDetails />} />
         </Route>
       </Routes>
     </Router>

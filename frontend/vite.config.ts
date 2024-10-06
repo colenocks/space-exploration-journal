@@ -7,17 +7,12 @@ export default defineConfig((env)=>{
   const envars = loadEnv(env.mode, './');
 
   const serverURL = new URL(
-    envars.SERVER_URL ?? '<http://localhost:5000>'
+    envars.SERVER_URL ?? 'http://localhost:5000'
   );
   const serverAPIPath = process.env.SERVER_API_PATH ?? "/api";
   
   return {
       envDir: './',
-
-      // Make the API path globally available in the frontend
-      define: {
-        __API_PATH__: JSON.stringify(serverAPIPath),
-      },
       plugins: [react()],
       resolve: {
         alias: {
@@ -26,7 +21,7 @@ export default defineConfig((env)=>{
       },
 
       server: {
-        port: 5000,
+        port: 3001,
 
         /* 
         The proxy setting enables communication between the frontend and the backend. 
