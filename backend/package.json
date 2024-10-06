@@ -2,9 +2,16 @@
   "name": "nasa-data-explorer-backend",
   "version": "1.0.0",
   "main": "main.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "exec": "tsc && node ./dist/main.js",
+    "ext": "ts,js,json"
   },
   "author": "Coleman Enocks",
   "license": "ISC",

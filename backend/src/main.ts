@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.status(200).json({ message: 'Hello from the server!' });
 })
 
