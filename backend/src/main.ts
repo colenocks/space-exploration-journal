@@ -1,5 +1,6 @@
 
 import express from 'express';
+import path from 'path';
 import 'dotenv/config';
 
 import { fetchAllBodies, fetchPlanetData, fetchAPOD } from "./controllers"
@@ -7,6 +8,10 @@ import { fetchAllBodies, fetchPlanetData, fetchAPOD } from "./controllers"
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+// Serve static files from the public directory (built by Vite)
+app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 5000;
 

@@ -30,6 +30,24 @@ Ensure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/) (v14 or later)
 - [npm](https://www.npmjs.com/get-npm)
 
+### Environment Variables
+
+Create two .env files in both frontend and backend directories
+
+For frontend:
+
+```bash
+SERVER_URL=https://localhost:5000
+SERVER_API_PATH=/api
+```
+
+For backend
+
+```bash
+NASA_API_KEY="Enter Your API  key"
+SOLAR_SYSTEM_API=https://api.le-systeme-solaire.net/rest/bodies
+```
+
 ### Installation
 
 **Clone the repository:**

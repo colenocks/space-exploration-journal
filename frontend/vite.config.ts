@@ -14,6 +14,9 @@ export default defineConfig((env)=>{
   return {
       envDir: './',
       plugins: [react()],
+      build: {
+        outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
+      },
       resolve: {
         alias: {
           "@": path.resolve(__dirname, "./src"),

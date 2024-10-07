@@ -16,6 +16,7 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      React,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -23,6 +24,11 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // Enable its recommended rules
+      ...React.configs.recommended.rules,
+      ...React.configs["jsx-runtime"].rules,
     },
+    // Set the react version
+    settings: { react: { version: "18.3" } },
   },
 )
