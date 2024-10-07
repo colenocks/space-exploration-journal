@@ -38,7 +38,7 @@ const PlanetDetails = () => {
           <strong>English Name:</strong> {planet.englishName}
         </p>
         <p>
-          <strong>Mean Radius:</strong> {planet.meanRadius}
+          <strong>Distance From Sun:</strong> {planet.semimajorAxis}
         </p>
         <p>
           <strong>Gravity:</strong> {planet.gravity}

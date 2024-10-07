@@ -10,8 +10,11 @@ async function fetchPlanetBodies() {
 }
 
 const PlanTrip = () => {
-  /* Fetch 10 random planets */
   const [planets, setPlanets] = useState<{ [key: string]: string }[]>([]);
+  const [selectedPlanetIds, setSelectedPlanetIds] = useState<string[]>([]);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [journalEntries, setJournalEntries] = useState<{ planet: string; tripDate: string }[]>([]);
+
   useEffect(() => {
     fetchPlanetBodies()
       .then(data => {
@@ -22,10 +25,6 @@ const PlanTrip = () => {
         console.log(error);
       });
   }, []);
-
-  const [selectedPlanetIds, setSelectedPlanetIds] = useState<string[]>([]);
-  const [isLaunching, setIsLaunching] = useState(false);
-  const [journalEntries, setJournalEntries] = useState<{ planet: string; tripDate: string }[]>([]);
 
   const simulateLaunch = async () => {
     setIsLaunching(true);
