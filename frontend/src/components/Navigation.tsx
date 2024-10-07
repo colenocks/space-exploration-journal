@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
 import { FaRocket, FaGalacticRepublic, FaHouseFlag } from "react-icons/fa6";
 
-const Navigation = () => {
+const Navigation = ({ className }: { className?: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
 
@@ -17,7 +17,7 @@ const Navigation = () => {
     <div
       className={`bg-gray-900 text-gray-100 mx-1 flex-shrink-0 h-full px-5 py-6 shadow-xl flex flex-col items-start rounded-lg transition-width duration-300 ${
         isCollapsed ? "w-16" : "w-52"
-      }`}>
+      } ${className}`}>
       {/* Toggle Button */}
       <button onClick={toggleSidebar} className='text-gray-100 mb-4 focus:outline-none'>
         {isCollapsed ? <FiArrowRightCircle size={24} /> : <FiArrowLeftCircle size={24} />}

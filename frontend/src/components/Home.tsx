@@ -14,8 +14,12 @@ const Home = () => {
               system.
             </li>
             <li>
-              <strong className='text-cyan-400'>Make Your Selection:</strong> Once you've gathered enough information, you can select the planet you
-              wish to visit. This will help you finalize your plan for the perfect trip.
+              <strong className='text-cyan-400'>Make Your Selection:</strong> Once you've gathered enough information, you can select the planets you
+              wish to visit.
+            </li>
+            <li>
+              <strong className='text-cyan-400'>Visualise your data:</strong> You can visualize your data based on the trips to the planets you have
+              visited and the items you have collected along the way.
             </li>
           </ul>
         </div>
