@@ -1,31 +1,28 @@
 import path from "path" // 'npm i -D @types/node' helps import path without error
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
-export default defineConfig((env)=>{
-  const envars = loadEnv(env.mode, './');
+const serverURL = new URL(
+  process.env.VITE_BACKEND_URL ?? 'http://localhost:5000'
+);
+const serverAPIPath = process.env.VITE_SERVER_API_PATH ?? "/api";
 
-  const serverURL = new URL(
-    envars.VITE_BACKEND_URL ?? 'http://localhost:5000'
-  );
-  const serverAPIPath = process.env.VITE_SERVER_API_PATH ?? "/api";
-  
-  return {
+// https://vitejs.dev/config/
+export default defineConfig({
       envDir: './',
       base: './',
       plugins: [react()],
       build: {
-        outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
+        // outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
+        outDir: 'dist',
       },
       resolve: {
         alias: {
           "@": path.resolve(__dirname, "./src"),
         },
       },
-
       server: {
-        port: 3001,
+        port: Number(process.env.PORT) ?? 3001,
 
         /* 
         The proxy setting enables communication between the frontend and the backend. 
@@ -38,4 +35,4 @@ export default defineConfig((env)=>{
         }
       },
     }
-})
+)
