@@ -7,12 +7,13 @@ export default defineConfig((env)=>{
   const envars = loadEnv(env.mode, './');
 
   const serverURL = new URL(
-    envars.SERVER_URL ?? 'http://localhost:5000'
+    envars.VITE_BACKEND_URL ?? 'http://localhost:5000'
   );
-  const serverAPIPath = process.env.SERVER_API_PATH ?? "/api";
+  const serverAPIPath = process.env.VITE_SERVER_API_PATH ?? "/api";
   
   return {
       envDir: './',
+      base: './',
       plugins: [react()],
       build: {
         outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
