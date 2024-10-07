@@ -45,18 +45,6 @@ const PlanTrip = () => {
       });
   }, []);
 
-  const [apodImageCount, setAPODImageCount] = useState<number | undefined>();
-  const [apodImages, setAPODImages] = useState<{ [key: string]: string }[]>([]);
-  useEffect(() => {
-    fetchAPODImages(apodImageCount)
-      .then(apod => {
-        setAPODImages(apod);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, [apodImageCount]);
-
   const simulateLaunch = async () => {
     setIsLaunching(true);
     const journalData: IJournal[] = [];
@@ -66,17 +54,22 @@ const PlanTrip = () => {
 
     for (const planet of selectedPlanets) {
       const tripDate = new Date().toLocaleString();
+      const number = Math.floor(Math.random() * 10) + 1; // Random number of images to fetch
 
-      const number = Math.floor(Math.random() * 10) + 1;
-      setAPODImageCount(number);
+      // Fetch APOD images directly inside the loop without using state for apodImagesCount
+      try {
+        const apodImages = await fetchAPODImages(number);
 
-      console.log(journalData);
-      journalData.push({
-        planet: planet.name,
-        tripDate,
-        images: apodImages,
-        data: planet,
-      });
+        // Push the journal entry for the current planet
+        journalData.push({
+          planet: planet.name,
+          tripDate,
+          images: apodImages,
+          data: planet,
+        });
+      } catch (error) {
+        console.error("Failed to fetch APOD images:", error);
+      }
     }
 
     // Save journal data after all trips are done
