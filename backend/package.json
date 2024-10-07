@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "main.ts",
   "scripts": {
-    "start": "tsc && node src/main.ts",
-    "dev": "nodemon src/main.ts"
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "nodemon"
   },
   "nodemonConfig": {
     "watch": [

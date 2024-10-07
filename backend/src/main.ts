@@ -1,6 +1,6 @@
 
-import express from 'express';
-import path from 'path';
+import express, { Request, Response } from 'express';
+import path from 'path';   
 import 'dotenv/config';
 
 import { fetchAllBodies, fetchPlanetData, fetchAPOD } from "./controllers"
@@ -15,23 +15,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/api/planets', async (_req, res) => {
+app.get('/api/planets', async (_req: Request, res: Response) => {
     const data = await fetchAllBodies();
     res.status(200).json(data);
 })
 
-app.get('/api/planet/:id', async (req, res) => {
+app.get('/api/planet/:id', async (req: Request, res: Response) => {
     const data = await fetchPlanetData(req.params.id);
     res.status(200).json(data);
 })
 
-app.get('/api/apod/:count', async (req, res) => {
+app.get('/api/apod/:count', async (req: Request, res: Response) => {
     const data = await fetchAPOD(Number(req.params.count));
     res.status(200).json(data);
 })
 
 // Catch-all for any other route and serve the frontend's index.html
-app.get('*', (_req, res) => {
+app.get('*', (__req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 

@@ -11,7 +11,7 @@ export async function fetchAllBodies(){
     const json = await response.json()
     return json?.bodies;
   } catch(error) {
-    console.error(error.message)
+    console.error(error)
   }
 }
 
