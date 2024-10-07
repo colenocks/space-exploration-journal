@@ -1,7 +1,7 @@
-const API_KEY = process.env.NASA_API_KEY;
+const API_KEY = process.env.VITE_NASA_API_KEY;
 
 export async function fetchAllBodies(){
-  const url = `${process.env.SOLAR_SYSTEM_API}`;
+  const url = `${process.env.VITE_SOLAR_SYSTEM_API}`;
 
   try {
     const response = await fetch(url); 
@@ -16,7 +16,7 @@ export async function fetchAllBodies(){
 }
 
 export async function fetchPlanetData(planetId: string) {
-  const url = `${process.env.SOLAR_SYSTEM_API}/${planetId.toLowerCase()}`;
+  const url = `${process.env.VITE_SOLAR_SYSTEM_API}/${planetId.toLowerCase()}`;
 
   try {
     const response = await fetch(url); 
