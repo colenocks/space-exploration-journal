@@ -13,18 +13,25 @@ const PlanetSelector = ({ planets, sendDataToParent }: IProps) => {
   const [selectedPlanets, setSelectedPlanets] = useState<string[]>([]);
 
   const handlePlanetSelection = (planet: string) => {
-    setSelectedPlanets(prevSelected => (prevSelected.includes(planet) ? prevSelected.filter(p => p !== planet) : [...prevSelected, planet]));
+    setSelectedPlanets(prevSelected => {
+      return prevSelected.includes(planet) ? prevSelected.filter(p => p !== planet) : [...prevSelected, planet];
+    });
   };
 
-  function handleOnOpenChange() {
-    sendDataToParent(selectedPlanets);
+  const [isOpen, setIsOpen] = useState(false);
+  function handleOnOpenChange(open: boolean) {
+    setIsOpen(open);
+    if (!open) {
+      console.log("closed");
+      sendDataToParent(selectedPlanets); // send data when popover is closed
+    }
   }
 
   return (
     <div>
       <div className='flex flex-col items-center text-center'>
         <div className='mb-6'>
-          <Popover onOpenChange={handleOnOpenChange}>
+          <Popover open={isOpen} onOpenChange={handleOnOpenChange}>
             <PopoverTrigger asChild>
               <button className='bg-gray-700 text-white px-4 py-2 rounded-md'>Click to Select Planets for Your Trips</button>
             </PopoverTrigger>
