@@ -30,6 +30,11 @@ app.get('/api/apod/:count', async (req, res) => {
     res.status(200).json(data);
 })
 
+// Catch-all for any other route and serve the frontend's index.html
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

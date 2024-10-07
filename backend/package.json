@@ -1,10 +1,10 @@
 {
   "name": "nasa-data-explorer-backend",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "tsc && node src/main.ts",
+    "dev": "nodemon src/main.ts"
   },
   "nodemonConfig": {
     "watch": [
