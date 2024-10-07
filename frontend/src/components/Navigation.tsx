@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
-import { FaRocket, FaGalacticRepublic, FaHouseFlag } from "react-icons/fa6";
+import { FaRocket, FaGalacticRepublic, FaHouseFlag, FaChartPie } from "react-icons/fa6";
 
 const Navigation = ({ className }: { className?: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -61,6 +61,18 @@ const Navigation = ({ className }: { className?: string }) => {
               <FaGalacticRepublic size={20} />
             </div>
             <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Planet List</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to='/charts'
+            className={`flex items-center w-full gap-x-3 transition-colors duration-300 ${
+              isActive("/charts") ? "text-cyan-600" : "text-gray-100 hover:text-cyan-400"
+            }`}>
+            <div>
+              <FaChartPie size={20} />
+            </div>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Visualize Trips</span>
           </Link>
         </li>
       </ul>

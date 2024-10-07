@@ -19,6 +19,8 @@ export const useRandomItemSelector = (items: IItems[], maxSelections = 7) => {
       const randomIndex = Math.floor(Math.random() * items.length);
       const selectedItem = items[randomIndex];
 
+      if(!selectedItem) return
+
       if (!selectionCounts[selectedItem.id]) {
         selectionCounts[selectedItem.id] = 1;
         randomItems.push(selectedItem);

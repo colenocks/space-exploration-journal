@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import PlanTrip from "./pages/PlanTrip";
 import PlanetList from "./pages/PlanetList";
 import PlanetDetails from "./pages/PlanetDetails";
+import SpaceTripsChart from "./pages/SpaceTripsChart";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path='/plan' element={<PlanTrip />} />
           <Route path='/planets' element={<PlanetList />} />
           <Route path='/planet/:id' element={<PlanetDetails />} />
+          <Route path='/charts' element={<SpaceTripsChart />} />
         </Route>
       </Routes>
     </Router>
