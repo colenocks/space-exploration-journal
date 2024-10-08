@@ -27,6 +27,7 @@ export const useRandomItemSelector = (items: IItems[], maxSelections = 7) => {
       }
     }
     setSelectedItems(randomItems);
+    return randomItems;
   };
 
   const clearSelection = () =>{

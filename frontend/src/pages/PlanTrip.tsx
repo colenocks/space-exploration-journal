@@ -43,13 +43,16 @@ const PlanTrip = () => {
   const [isLaunching, setIsLaunching] = useState(false);
   const [isTimeTravelling, setTimeTravel] = useState(false);
 
-  const { selectedItems: selectedPlanets, selectRandomItems: selectRandomPlanets, clearSelection } = useRandomItemSelector(planets);
+  const {
+    selectedItems: selectedPlanets,
+    selectRandomItems: selectRandomPlanets,
+    clearSelection: clearPlanetsSelection,
+  } = useRandomItemSelector(planets);
 
   const simulateLaunch = async () => {
     setIsLaunching(true);
 
     const journalData = await populateMonthlyData(selectedPlanets);
-    console.log(journalData);
 
     // Use callback pattern to safely update `monthlyData`
     setMonthlyData(prevData => ({
@@ -65,9 +68,19 @@ const PlanTrip = () => {
     }
 
     setIsLaunching(false);
-    clearSelection();
+    clearPlanetsSelection();
   };
 
+  const simulateLaunchForMonth = async (monthIndex: number, selectedPlanets: IPlanet[]) => {
+    const journalData = await populateMonthlyData(selectedPlanets);
+    setMonthlyData(prevData => ({
+      ...prevData,
+      [MONTHS[monthIndex]]: journalData,
+    }));
+    clearPlanetsSelection();
+  };
+
+  // Populate data for selected planets (simulating journal entry creation)
   const populateMonthlyData = async (selectedPlanets: IPlanet[]) => {
     const journalData: IJournal[] = [];
 
@@ -91,21 +104,33 @@ const PlanTrip = () => {
     return journalData;
   };
 
-  const handleLaunchClick = async () => {
-    if (selectedPlanets.length > 0) {
-      await simulateLaunch();
-    }
-  };
-
-  const handleSelectPlanets = () => {
-    selectRandomPlanets();
-  };
-
-  const handleTimeTravel = () => {
-    // Reset `monthlyData` and `currentMonth` before starting time travel
+  const timeTravelThroughYear = async () => {
+    // Reset the month to January & clear old data
     setCurrentMonth(0);
     setMonthlyData({});
     setTimeTravel(true);
+
+    // Travel through all months
+    for (let monthIndex = 0; monthIndex < MONTHS.length; monthIndex++) {
+      const randomPlanets = selectRandomPlanets();
+      await simulateLaunchForMonth(monthIndex, randomPlanets!);
+      await delay(300); // Delay between months (300ms for example)
+    }
+
+    setTimeTravel(false); // Time travel complete
+    setYearCompleted(true); // Mark year as completed
+  };
+
+  // Handle button click to manually launch for one month
+  const handleLaunchClick = async () => {
+    if (!selectedPlanets.length && isLaunching) return;
+
+    setIsLaunching(true);
+
+    await simulateLaunchForMonth(currentMonth, selectedPlanets);
+    setCurrentMonth(prev => prev + 1);
+    setIsLaunching(false);
+    clearPlanetsSelection();
   };
 
   useEffect(() => {
@@ -127,35 +152,19 @@ const PlanTrip = () => {
 
   useEffect(() => {
     if (isTimeTravelling) {
-      const travelThroughTheYear = async () => {
-        for (let i = 0; i < 11; i++) {
-          selectRandomPlanets();
-          await delay(300); // add delay for asynchronous calls
-          await simulateLaunch();
-        }
-      };
-
-      travelThroughTheYear()
-        .then(() => {
-          setTimeTravel(false);
-        })
-        .catch(error => {
-          console.error("Error during async execution:", error);
-          setTimeTravel(false);
-        });
+      timeTravelThroughYear();
     }
   }, [isTimeTravelling]);
 
   return (
     <div className='flex flex-col items-center'>
-      {yearCompleted ? "yearCompleted" : "not"}
       <h1 className='text-3xl font-bold text-white'>Plan Your Monthly Space Trips</h1>
       <small className='text-center mt-4 mb-12'>Click select planets and launch to visit per month until end of the year.</small>
       {!isLaunching ? (
         <div className='text-center'>
           <button
             className='bg-gray-700 hover:cursor-pointer capitalize hover:text-pink-400 text-white px-4 py-2 font-semibold rounded-md'
-            onClick={handleSelectPlanets}>
+            onClick={selectRandomPlanets}>
             Select Planets
           </button>
           <div className='mt-5 text-sm'>
@@ -187,19 +196,21 @@ const PlanTrip = () => {
 
       <button
         onClick={handleLaunchClick}
-        className={`bg-cyan-700 hover:bg-cyan-500 text-white px-6 py-2 rounded-md flex items-center space-x-2 ${isLaunching ? "opacity-50" : ""}`}
-        disabled={isLaunching}>
+        className={`text-white px-6 py-2 rounded-md flex items-center space-x-2 ${
+          isLaunching || !selectedPlanets.length ? "bg-cyan-900" : "bg-cyan-700 hover:bg-cyan-500"
+        }`}
+        disabled={isLaunching || !selectedPlanets.length}>
         <FaRocket />
         <span>{isLaunching ? "Launching..." : "Launch Rocket"}</span>
       </button>
 
       <small className='text-center mt-12'>Or click to time travel through the monthly visits for the whole year.</small>
       <button
-        onClick={handleTimeTravel}
-        className={`bg-pink-900 text-white px-6 py-2 mt-2 hover:bg-pink-500 rounded-md flex items-center space-x-2 ${
-          isLaunching ? "opacity-50" : ""
+        onClick={timeTravelThroughYear}
+        className={` text-white px-6 py-2 mt-2 rounded-md flex items-center space-x-2 ${
+          isLaunching ? "bg-pink-900" : "bg-pink-700 hover:bg-pink-500 "
         }`}
-        disabled={isLaunching}>
+        disabled={isLaunching || isTimeTravelling}>
         <FaTimeline />
         <span>{isLaunching ? "Travelling Through Time" : "Time Travel"}</span>
       </button>
