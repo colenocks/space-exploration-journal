@@ -18,14 +18,16 @@ interface IJournal {
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 async function fetchPlanetBodies() {
-  const response = await fetch("/api/planets");
+  const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/planets`;
+  const response = await fetch(apiUrl);
   const json = await response.json();
   return json;
 }
 
 async function fetchAPODImages(count?: number) {
   if (!count) return [];
-  const response = await fetch(`/api/apod/${count}`);
+  const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/apod/${count}`;
+  const response = await fetch(apiUrl);
   const json = await response.json();
   return json;
 }
