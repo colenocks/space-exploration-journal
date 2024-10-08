@@ -120,29 +120,23 @@ const SpaceTripsChart = () => {
   };
 
   return (
-    <>
-      {journalEntries.length ? (
-        <div>
-          <h1 className='text-3xl font-bold mb-8'>Space Exploration Data Visualizations</h1>
+    <div>
+      <h2 className='text-3xl font-bold mb-8'>Space Exploration Data Visualizations</h2>
 
-          {/* Stacked Bar Chart for planet visits */}
-          <div>
-            <h2 className='text-2xl mb-4'>Most Visited Planets by Month</h2>
-            <Bar data={data} options={options} />
-          </div>
+      {datasets.length ? (
+        <div>
+          <Bar data={data} options={options} />
 
           <button
             onClick={handleResetData}
-            className={`text-white cursor-pointer px-4 py-1 rounded-md flex items-center space-x-2 ${
-              !journalEntries.length ? "bg-cyan-700" : "bg-cyan-500"
-            }`}>
+            className={"text-white cursor-pointer px-2 py-1 mt-6 bg-cyan-700 hover:bg-cyan-500 rounded-md flex items-center"}>
             <span>Reset Data</span>
           </button>
         </div>
       ) : (
         <h2 className='text-lg text-gray-200 text-center mb-8 max-w-2xl'>No Data yet. Embark on more trips!</h2>
       )}
-    </>
+    </div>
   );
 };
 
