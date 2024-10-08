@@ -2,7 +2,7 @@ import PlanetsTable from "@/components/PlanetsTable";
 import { useEffect, useState } from "react";
 
 async function fetchPlanetBodies() {
-  const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/planets`;
+  const apiUrl = `/api/planets`;
   const response = await fetch(apiUrl);
   const json = await response.json();
   return json;
