@@ -12,7 +12,7 @@ export default defineConfig({
       envDir: './',
       plugins: [react()],
       build: {
-        outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
+        outDir: "dist",
       },
       resolve: {
         alias: {
