@@ -36,35 +36,28 @@ async function fetchAPODImages(count?: number) {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const PlanTrip = () => {
-  const [isLaunching, setIsLaunching] = useState(false);
-
   const [planets, setPlanets] = useState<IPlanet[]>([]);
-  const { selectedItems: selectedPlanets, selectRandomItems: selectRandomPlanets, clearSelection } = useRandomItemSelector(planets);
-  useEffect(() => {
-    fetchPlanetBodies()
-      .then(data => {
-        /* TODO: Randomly select 30 to choose from */
-        setPlanets(data.splice(0, 10));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
   const [monthlyData, setMonthlyData] = useState<{ [key: string]: IJournal[] }>();
   const [currentMonth, setCurrentMonth] = useState(0); // Current month, 0 = January
   const [yearCompleted, setYearCompleted] = useState(false); // Track when year ends
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [isTimeTravelling, setTimeTravel] = useState(false);
+
+  const { selectedItems: selectedPlanets, selectRandomItems: selectRandomPlanets, clearSelection } = useRandomItemSelector(planets);
 
   const simulateLaunch = async () => {
     setIsLaunching(true);
-    const updatedMonthlyData = { ...monthlyData };
 
     const journalData = await populateMonthlyData(selectedPlanets);
+    console.log(journalData);
 
-    updatedMonthlyData[MONTHS[currentMonth]] = journalData;
-    setMonthlyData(updatedMonthlyData);
+    // Use callback pattern to safely update `monthlyData`
+    setMonthlyData(prevData => ({
+      ...prevData,
+      [MONTHS[currentMonth]]: journalData,
+    }));
 
-    // Move to next month or end the year
+    // Move to next month
     if (currentMonth === MONTHS.length - 1) {
       setYearCompleted(true); // End of the year
     } else {
@@ -98,13 +91,6 @@ const PlanTrip = () => {
     return journalData;
   };
 
-  useEffect(() => {
-    if (!yearCompleted) return;
-
-    // save journal entries to local storage (overwrite existing)
-    localStorage.setItem("journal", JSON.stringify(monthlyData));
-  }, [monthlyData, yearCompleted]);
-
   const handleLaunchClick = async () => {
     if (selectedPlanets.length > 0) {
       await simulateLaunch();
@@ -115,40 +101,56 @@ const PlanTrip = () => {
     selectRandomPlanets();
   };
 
-  const [travelling, setTravelling] = useState(false);
+  const handleTimeTravel = () => {
+    // Reset `monthlyData` and `currentMonth` before starting time travel
+    setCurrentMonth(0);
+    setMonthlyData({});
+    setTimeTravel(true);
+  };
+
   useEffect(() => {
-    if (travelling) {
-      const runAsyncFunctionWithDelay = async () => {
+    fetchPlanetBodies()
+      .then(data => {
+        /* TODO: Randomly select 30 to choose from */
+        setPlanets(data.splice(0, 10));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!yearCompleted) return;
+    // save journal entries to local storage (overwrite existing)
+    localStorage.setItem("journal", JSON.stringify(monthlyData));
+  }, [monthlyData, yearCompleted]);
+
+  useEffect(() => {
+    if (isTimeTravelling) {
+      const travelThroughTheYear = async () => {
         for (let i = 0; i < 11; i++) {
           selectRandomPlanets();
-          await delay(200); // add delay for asynchronous calls
+          await delay(300); // add delay for asynchronous calls
           await simulateLaunch();
         }
       };
 
-      runAsyncFunctionWithDelay()
+      travelThroughTheYear()
         .then(() => {
-          setTravelling(false);
+          setTimeTravel(false);
         })
         .catch(error => {
           console.error("Error during async execution:", error);
-          setTravelling(false);
+          setTimeTravel(false);
         });
     }
-  }, [travelling]);
-
-  const handleTimeTravel = () => {
-    setCurrentMonth(0);
-    setMonthlyData({});
-    setTravelling(true);
-  };
+  }, [isTimeTravelling]);
 
   return (
     <div className='flex flex-col items-center'>
+      {yearCompleted ? "yearCompleted" : "not"}
       <h1 className='text-3xl font-bold text-white'>Plan Your Monthly Space Trips</h1>
-
-      <small className='text-center mt-4 mb-12'>Click select planets and launch to visit per month until end of the yea.r</small>
-
+      <small className='text-center mt-4 mb-12'>Click select planets and launch to visit per month until end of the year.</small>
       {!isLaunching ? (
         <div className='text-center'>
           <button
@@ -182,6 +184,7 @@ const PlanTrip = () => {
       ) : (
         <LaunchAnimation />
       )}
+
       <button
         onClick={handleLaunchClick}
         className={`bg-cyan-700 hover:bg-cyan-500 text-white px-6 py-2 rounded-md flex items-center space-x-2 ${isLaunching ? "opacity-50" : ""}`}
