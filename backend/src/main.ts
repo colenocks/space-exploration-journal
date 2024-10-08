@@ -12,8 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Serve static files from the public directory (built by Vite)
-app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 5000;
 
@@ -32,6 +30,11 @@ app.get('/api/apod/:count', async (req: Request, res: Response) => {
     res.status(200).json(data);
 })
 
+// Serve static files from the public directory (built by Vite)
+app.use(express.static(path.join(__dirname, '../public')));
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;
