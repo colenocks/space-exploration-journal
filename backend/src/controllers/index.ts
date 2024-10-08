@@ -33,7 +33,8 @@ export async function fetchPlanetData(planetId: string) {
 export async function fetchAPOD(count: number) {
   const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&count=${count}`;
 
-  try {const response = await fetch(url); 
+  try {
+    const response = await fetch(url); 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
