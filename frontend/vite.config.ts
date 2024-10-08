@@ -10,11 +10,9 @@ const serverAPIPath = process.env.VITE_SERVER_API_PATH ?? "/api";
 // https://vitejs.dev/config/
 export default defineConfig({
       envDir: './',
-      base: './',
       plugins: [react()],
       build: {
-        // outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
-        outDir: 'dist',
+        outDir: '../backend/public',  // Ensures that the frontend build outputs to the backend's public folder
       },
       resolve: {
         alias: {
