@@ -72,7 +72,9 @@ const Navigation = ({ className }: { className?: string }) => {
             <div>
               <FaChartPie size={20} />
             </div>
-            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>Visualize Trips</span>
+            <span className={`transition-opacity duration-300 whitespace-nowrap ${isCollapsed ? "opacity-0" : "opacity-100"}`}>
+              Space Trips Charts
+            </span>
           </Link>
         </li>
       </ul>

@@ -32,7 +32,6 @@ async function fetchAPODImages(count?: number) {
 
 const PlanTrip = () => {
   const [isLaunching, setIsLaunching] = useState(false);
-  const [journalEntries, setJournalEntries] = useState<IJournal[]>([]);
 
   const [planets, setPlanets] = useState<IPlanet[]>([]);
   const { selectedItems: selectedPlanets, selectRandomItems: selectRandomPlanets, clearSelection } = useRandomItemSelector(planets);
@@ -75,12 +74,11 @@ const PlanTrip = () => {
       }
     }
 
-    setJournalEntries(prevEntries => [...prevEntries, ...journalData]);
     updatedMonthlyData[MONTHS[currentMonth]] = journalData;
     setMonthlyData(updatedMonthlyData);
 
     // Move to next month or end the year
-    if (currentMonth === 5) {
+    if (currentMonth === 11) {
       setYearCompleted(true); // End of the year
     } else {
       setCurrentMonth(prevMonth => prevMonth + 1);
@@ -104,7 +102,6 @@ const PlanTrip = () => {
   };
 
   const handleSelectPlanets = () => {
-    setJournalEntries([]);
     selectRandomPlanets();
   };
 
@@ -119,6 +116,9 @@ const PlanTrip = () => {
             onClick={handleSelectPlanets}>
             Click to generate planets to visit
           </button>
+          <div className='mt-5 text-sm'>
+            Current Month: <strong className='text-pink-400'>{MONTHS[currentMonth]}</strong>
+          </div>
 
           <div className='flex flex-col gap-3 mt-4 mb-12'>
             {selectedPlanets.length > 0 && (
@@ -142,7 +142,6 @@ const PlanTrip = () => {
       ) : (
         <LaunchAnimation />
       )}
-
       <button
         onClick={handleLaunchClick}
         className={`bg-cyan-700 text-white px-6 py-2 rounded-md flex items-center space-x-2 ${isLaunching ? "opacity-50" : ""}`}
@@ -152,31 +151,39 @@ const PlanTrip = () => {
       </button>
 
       {/* TODO: Move journal entries to a separate file */}
-      {journalEntries.length > 0 && (
-        <div className='mt-20 w-full max-w-2xl'>
-          <h2 className='text-xl font-bold text-white mb-4'>Space Journal for {MONTHS[currentMonth - 1]}</h2>
-          <ul className='text-white'>
-            {journalEntries.map((entry, index) => (
-              <li key={entry.planet + index} className='border-b border-gray-700 py-2'>
-                <div>
-                  Trip to <strong>{entry.planet}</strong> on {entry.tripDate}
-                </div>
-                <div className='flex gap-2 flex-wrap'>
-                  {entry.images?.map(entryImage => {
-                    return (
-                      <Image
-                        key={entryImage.url + entryImage.title}
-                        src={entryImage.url}
-                        alt={entryImage.title}
-                        className='rounded-sm'
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    );
-                  })}
-                </div>
-              </li>
-            ))}
-          </ul>
+      {yearCompleted && monthlyData && Object.keys(monthlyData).length > 0 && (
+        <div className='mt-20 w-full space-y-6 max-w-2xl'>
+          <h2 className='mt-5 text-sm text-pink-400'>Data has been stored for Visualizations. Go to Visualize Trips</h2>
+          {Object.values(monthlyData).map(monthJournal => {
+            return (
+              <div>
+                <h2 className='text-lg font-bold text-cyan-700 mb-1'>Space Journal for {MONTHS[currentMonth - 1]}</h2>
+                <ul className='text-white'>
+                  {monthJournal.map((entry, index) => (
+                    <li key={entry.planet + index} className='border-b border-gray-700 py-2'>
+                      <div>
+                        Trip to <strong>{entry.planet}</strong> - {entry.tripDate}
+                      </div>
+                      <div className='flex gap-2 flex-wrap ml-8'>
+                        {entry.images?.map(entryImage => {
+                          return (
+                            <Image
+                              key={entryImage.url + entryImage.title}
+                              src={entryImage.url}
+                              alt={entryImage.title}
+                              className='rounded-sm border-2 border-neutral-500'
+                              style={{ width: "40px", height: "40px", marginLeft: "-30px" }}
+                            />
+                          );
+                        })}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+          ;
         </div>
       )}
     </div>
