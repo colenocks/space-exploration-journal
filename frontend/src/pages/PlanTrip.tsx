@@ -15,8 +15,6 @@ interface IJournal {
   data?: IPlanet;
 }
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 async function fetchPlanetBodies() {
   const apiUrl = `/api/planets`;
   const response = await fetch(apiUrl);
@@ -42,6 +40,8 @@ const PlanTrip = () => {
   const [yearCompleted, setYearCompleted] = useState(false); // Track when year ends
   const [isLaunching, setIsLaunching] = useState(false);
   const [isTimeTravelling, setTimeTravel] = useState(false);
+
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const {
     selectedItems: selectedPlanets,
@@ -90,9 +90,10 @@ const PlanTrip = () => {
 
     // Travel through all months
     for (let monthIndex = 0; monthIndex < MONTHS.length; monthIndex++) {
+      setCurrentMonth(monthIndex);
       const randomPlanets = selectRandomPlanets();
       await simulateLaunchForMonth(monthIndex, randomPlanets!);
-      await delay(300); // Delay between months (300ms for example)
+      await delay(500); // Delay between months (500ms for example)
     }
 
     setTimeTravel(false); // Time travel complete
@@ -141,7 +142,7 @@ const PlanTrip = () => {
       ) : (
         <div className='flex flex-col items-center'>
           <h1 className='text-3xl font-bold text-white'>Plan Your Monthly Space Trips</h1>
-          <small className='text-center mt-4 mb-12'>Click select planets and launch to visit per month until end of the year.</small>
+          <small className='text-center mt-4 mb-8'>Click select planets and launch to visit per month until end of the year.</small>
           {!isLaunching ? (
             <div className='text-center'>
               <button
@@ -150,7 +151,7 @@ const PlanTrip = () => {
                 Select Planets
               </button>
               <div className='mt-5 text-sm'>
-                Current Month: <strong className='text-pink-400'>{MONTHS[currentMonth]}</strong>
+                For: <strong className='text-pink-400'>{MONTHS[currentMonth]}</strong>
               </div>
 
               <div className='flex flex-col gap-3 mt-4 mb-6'>
@@ -186,7 +187,9 @@ const PlanTrip = () => {
             <span>{isLaunching ? "Launching..." : "Launch Rocket"}</span>
           </button>
 
-          <small className='text-center mt-12'>Or click to time travel through the monthly visits for the whole year.</small>
+          <div className='w-full h-1 border-b border-gray-700 py-2' />
+
+          <small className='text-center mt-6'>Or click to time travel through the monthly visits for the whole year.</small>
           <button
             onClick={timeTravelThroughYear}
             className={` text-white px-6 py-2 mt-2 rounded-md flex items-center space-x-2 ${
@@ -194,7 +197,7 @@ const PlanTrip = () => {
             }`}
             disabled={isLaunching || isTimeTravelling}>
             <FaTimeline />
-            <span>{isLaunching ? "Travelling Through Time" : "Time Travel"}</span>
+            <span>{isLaunching || isTimeTravelling ? "Travelling Through Time" : "Time Travel"}</span>
           </button>
         </div>
       )}
