@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.VITE_BACKEND_URL })); 
+app.use(cors()); 
 
 
 // Serve static files from the public directory (built by Vite)
