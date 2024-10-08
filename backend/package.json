@@ -1,7 +1,7 @@
 {
   "name": "nasa-data-explorer-backend",
   "version": "1.0.0",
-  "main": "main.ts",
+  "main": "main.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",

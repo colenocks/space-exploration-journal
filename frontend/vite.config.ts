@@ -1,4 +1,4 @@
-import path from "path" // 'npm i -D @types/node' helps import path without error
+import path from "path"
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -10,6 +10,7 @@ const serverAPIPath = process.env.VITE_SERVER_API_PATH ?? "/api";
 // https://vitejs.dev/config/
 export default defineConfig({
       envDir: './',
+      base: './',
       plugins: [react()],
       build: {
         outDir: "dist",
