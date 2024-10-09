@@ -4,7 +4,7 @@
     "module": "commonjs",
     "skipLibCheck": true,
     "rootDir": "src",
-    "outDir": "/dist", // Output directory for compiled JavaScript
+    "outDir": "dist", // Output directory for compiled JavaScript
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
