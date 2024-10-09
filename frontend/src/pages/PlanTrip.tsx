@@ -51,6 +51,11 @@ const PlanTrip = () => {
     clearSelection: clearPlanetsSelection,
   } = useRandomItemSelector(planets);
 
+  const resetJournalData = () => {
+    setMonthlyData({});
+    localStorage.setItem("journal", "");
+  };
+
   const simulateLaunchForMonth = async (monthIndex: number, selectedPlanets: IPlanet[]) => {
     const journalData = await populateMonthlyData(selectedPlanets);
     setMonthlyData(prevData => ({
@@ -87,7 +92,7 @@ const PlanTrip = () => {
   const timeTravelThroughYear = async () => {
     // Reset the month to January & clear old data
     setCurrentMonth(0);
-    setMonthlyData({});
+    resetJournalData();
     setTimeTravel(true);
 
     // Travel through all months
@@ -95,7 +100,7 @@ const PlanTrip = () => {
       //   setCurrentMonth(monthIndex);
       const randomPlanets = selectRandomPlanets();
       await simulateLaunchForMonth(monthIndex, randomPlanets!);
-      await delay(500); // Delay between months (500ms for example)
+      await delay(400); // Delay between months (400ms for example)
       setCurrentMonth(monthIndex + 1);
     }
 
@@ -110,6 +115,9 @@ const PlanTrip = () => {
     setIsLaunching(true);
 
     await simulateLaunchForMonth(currentMonth, selectedPlanets);
+    if (currentMonth == 0) {
+      resetJournalData();
+    }
     setCurrentMonth(prev => prev + 1);
     setIsLaunching(false);
     clearPlanetsSelection();
@@ -148,7 +156,7 @@ const PlanTrip = () => {
             <LaunchAnimation />
           ) : (
             <div className='flex flex-col items-center'>
-              <h1 className='text-3xl font-bold text-white'>Plan Your Monthly Space Trips</h1>
+              <h2 className='text-2xl font-bold text-white'>Plan Your Monthly Space Trips</h2>
               <small className='text-center mt-4 mb-8'>Click select planets and launch to visit per month until end of the year.</small>
               <div className='text-center'>
                 <button
