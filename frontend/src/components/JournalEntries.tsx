@@ -23,11 +23,11 @@ const JournalEntries = ({ entries }: IProps) => {
           <h2 className='mt-5 text-lg'>The Space trip journal data is ready for Visualizations. Go to Space Trips Charts!</h2>
           {Object.keys(entries).map((month, index) => {
             return (
-              <div key={month + index}>
+              <div key={month + index} className='border-b border-gray-700 py-2'>
                 <h2 className='text-lg font-bold text-cyan-700 mb-1'>{month} Trips</h2>
                 <ul className='text-white'>
                   {entries[month].map((entry, i) => (
-                    <li key={entry.planet + i} className='border-b border-gray-700 py-2'>
+                    <li key={entry.planet + i} className='py-2'>
                       <div>
                         Trip to <strong>{entry.planet}</strong> - {entry.tripDate}
                       </div>
