@@ -14,7 +14,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/plan' element={<PlanTrip />} />
           <Route path='/planets' element={<PlanetList />} />
-          <Route path='/planet/:id' element={<PlanetDetails />} />
+          <Route path='/planets/:id' element={<PlanetDetails />} />
           <Route path='/charts' element={<SpaceTripsChart />} />
         </Route>
       </Routes>

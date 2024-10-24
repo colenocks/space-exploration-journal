@@ -16,13 +16,6 @@ interface IJournal {
   data?: IPlanet;
 }
 
-async function fetchPlanetBodies() {
-  const apiUrl = `/api/planets`;
-  const response = await fetch(apiUrl);
-  const json = await response.json();
-  return json;
-}
-
 async function fetchAPODImages(count?: number) {
   if (!count) return [];
   const apiUrl = `/api/apod/${count}`;
@@ -44,6 +37,13 @@ const PlanTrip = () => {
 
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const progress = (currentMonth / (MONTHS.length - 1)) * 100;
+
+  const fetchPlanetBodies = async () => {
+    const apiUrl = `/api/planets`;
+    const response = await fetch(apiUrl);
+    const json = await response.json();
+    return json;
+  };
 
   const {
     selectedItems: selectedPlanets,

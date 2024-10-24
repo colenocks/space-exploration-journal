@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 async function fetchPlanetData(id: string) {
-  const apiUrl = `/api/planet/${id}`;
+  const apiUrl = `/api/planets/${id}`;
   const response = await fetch(apiUrl);
   const json = await response.json();
   return json;

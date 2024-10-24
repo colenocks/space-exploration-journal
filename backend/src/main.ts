@@ -1,6 +1,6 @@
 
 import express, { Request, Response } from 'express';
-import path from 'path';   
+import path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
 
@@ -20,7 +20,7 @@ app.get('/api/planets', async (_req: Request, res: Response) => {
     res.status(200).json(data);
 })
 
-app.get('/api/planet/:id', async (req: Request, res: Response) => {
+app.get('/api/planets/:id', async (req: Request, res: Response) => {
     const data = await fetchPlanetData(req.params.id);
     res.status(200).json(data);
 })

@@ -24,7 +24,7 @@ const PlanetsTable = ({ planets }: IProps) => {
           {planets.map((planet, index) => (
             <tr key={index} className='hover:bg-gray-800'>
               <td className='py-4 pl-4 pr-3 font-medium text-gray-300 sm:pl-0'>
-                <Link to={`/planet/${planet.id}`} className='text-cyan-500 hover:underline'>
+                <Link to={`/planets/${planet.id}`} className='text-cyan-500 hover:underline'>
                   {planet.name}
                 </Link>
               </td>
