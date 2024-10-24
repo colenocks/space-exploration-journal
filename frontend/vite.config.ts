@@ -6,10 +6,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig((env) => {
   const envars = loadEnv(env.mode, './');
 
-  console.log(envars.VITE_BACKEND_URL)
-
   const serverURL = new URL(
-    envars.VITE_BACKEND_URL ?? 'http://localhost:5000'
+    envars.VITE_SERVER_URL ?? 'http://localhost:5000'
   );
   const serverAPIPath = envars.VITE_SERVER_API_PATH ?? '/api';
 

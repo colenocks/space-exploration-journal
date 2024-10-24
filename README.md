@@ -37,7 +37,7 @@ Create two .env files in both frontend and backend directories
 For frontend:
 
 ```bash
-VITE_BACKEND_URL=https://localhost:5000
+VITE_SERVER_URL=https://localhost:5000
 VITE_SERVER_API_PATH=/api
 ```
 
