@@ -4,7 +4,7 @@ import Navigation from "./Navigation";
 
 const Dashboard = () => {
   return (
-    <div className='flex h-screen py-1 bg-gray-850 p-0.5'>
+    <main className='flex h-screen py-1 bg-gray-850 p-0.5'>
       <Navigation />
 
       <div className='flex-grow flex flex-col'>
@@ -16,7 +16,7 @@ const Dashboard = () => {
           <Outlet />
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -19,7 +19,7 @@ const Navigation = ({ className }: { className?: string }) => {
         isCollapsed ? "w-16" : "w-52"
       } ${className}`}>
       {/* Toggle Button */}
-      <button onClick={toggleSidebar} className='text-gray-100 mb-4 focus:outline-none'>
+      <button onClick={toggleSidebar} className='text-gray-100 mb-4 focus:outline-none' aria-label='expand or collapse button'>
         {isCollapsed ? <FiArrowRightCircle size={24} /> : <FiArrowLeftCircle size={24} />}
       </button>
 

@@ -24,7 +24,7 @@ const Home = () => {
           </ul>
         </div>
 
-        <p className='text-center text-gray-500 mt-12'>
+        <p className='text-center text-white mt-12'>
           Prepare for an exciting journey through space as you explore and compare planets to find your ideal destination!
         </p>
       </div>
