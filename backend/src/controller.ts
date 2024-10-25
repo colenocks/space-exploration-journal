@@ -15,7 +15,8 @@ interface IPlanetBody {
 }
 
 const API_KEY = process.env.VITE_NASA_API_KEY;
-const SOLAR_SYSTEM_URL = process.env.VITE_SOLAR_SYSTEM_API ?? ""
+const SOLAR_SYSTEM_URL = process.env.VITE_SOLAR_SYSTEM_URL ?? ""
+const NASA_APOD_URL = process.env.VITE_NASA_APOD_URL ?? ""
 
 export async function fetchAllBodies(config?: AxiosRequestConfig) {
   try {
@@ -26,32 +27,15 @@ export async function fetchAllBodies(config?: AxiosRequestConfig) {
   }
 }
 
-export async function fetchPlanetData(planetId: string) {
-  const url = `${process.env.VITE_SOLAR_SYSTEM_API}/${planetId.toLowerCase()}`;
-
+export async function fetchAPOD(config?: AxiosRequestConfig) {
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    const json = await response.json()
-    return json
+    return await axios.get(NASA_APOD_URL, {
+      params: {
+        ...config?.params,
+        api_key: API_KEY,
+      }
+    }).then(res => res.data);
   } catch (error) {
-    console.error(`Error fetching data for ${planetId}:`, error);
-  }
-}
-
-export async function fetchAPOD(count: number) {
-  const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&count=${count}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    const json = await response.json()
-    return json
-  } catch (error) {
-    console.error('Error fetching APOD:', error);
+    console.error(error)
   }
 }

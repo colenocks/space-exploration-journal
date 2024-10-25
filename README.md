@@ -45,7 +45,7 @@ For backend
 
 ```bash
 VITE_NASA_API_KEY="Enter Your API  key"
-VITE_SOLAR_SYSTEM_API=https://api.le-systeme-solaire.net/rest/bodies
+VITE_SOLAR_SYSTEM_URL=https://api.le-systeme-solaire.net/rest/bodies
 ```
 
 ### Installation

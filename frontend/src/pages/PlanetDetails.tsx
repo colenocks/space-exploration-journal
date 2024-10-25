@@ -1,31 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-async function fetchPlanetData(id: string) {
-  const apiUrl = `/api/planets/${id}`;
-  const response = await fetch(apiUrl);
-  const json = await response.json();
-  return json;
-}
-
-interface IPlanet {
-  [key: string]: string;
-}
+import usePlanet from "@/hooks/usePlanet";
 
 const PlanetDetails = () => {
-  const [planet, setPlanetData] = useState<IPlanet>({});
-
   const { id } = useParams();
-  useEffect(() => {
-    if (!id) return;
-    fetchPlanetData(id)
-      .then(data => {
-        setPlanetData(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  const planet = usePlanet(id);
 
   if (!planet) {
     return <div className='text-red-500'>Planet not found!</div>;
@@ -39,7 +17,10 @@ const PlanetDetails = () => {
           <strong>English Name:</strong> {planet.englishName}
         </p>
         <p>
-          <strong>Distance From Sun:</strong> {planet.semimajorAxis}
+          <strong>Average Temperature:</strong> {planet.avgTemp}˚F
+        </p>
+        <p>
+          <strong>Dimension:</strong> {planet.dimension}
         </p>
         <p>
           <strong>Gravity:</strong> {planet.gravity}

@@ -4,13 +4,13 @@ import path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
 
-import { fetchAllBodies, fetchPlanetData, fetchAPOD } from "./controller"
+import { fetchAllBodies, fetchAPOD } from "./controller"
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.VITE_BACKEND_URL }));
+app.use(cors({ origin: process.env.VITE_SERVER_URL }));
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,13 +19,8 @@ app.get('/api/planets', async (req: Request, res: Response) => {
     res.status(200).json(data);
 })
 
-app.get('/api/planets/:id', async (req: Request, res: Response) => {
-    const data = await fetchPlanetData(req.params.id);
-    res.status(200).json(data);
-})
-
-app.get('/api/apod/:count', async (req: Request, res: Response) => {
-    const data = await fetchAPOD(Number(req.params.count));
+app.get('/api/apod', async (req: Request, res: Response) => {
+    const data = await fetchAPOD({ params: req.query });
     res.status(200).json(data);
 })
 
