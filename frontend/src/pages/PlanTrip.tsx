@@ -4,16 +4,13 @@ import { Progress } from "@/components/ui/progress";
 import LaunchAnimation from "@/components/LaunchAnimation";
 import JournalEntries from "@/components/JournalEntries";
 import { useRandomItemSelector } from "@/lib/useRandomSelector";
-
-interface IPlanet {
-  [key: string]: string;
-}
+import usePlanets, { IPlanetBody } from "@/hooks/usePlanets";
 
 interface IJournal {
   planet: string;
   tripDate: string;
   images: { [key: string]: string }[];
-  data?: IPlanet;
+  data: IPlanetBody;
 }
 
 async function fetchAPODImages(count?: number) {
@@ -28,7 +25,8 @@ async function fetchAPODImages(count?: number) {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const PlanTrip = () => {
-  const [planets, setPlanets] = useState<IPlanet[]>([]);
+  const { data: planets } = usePlanets();
+
   const [monthlyData, setMonthlyData] = useState<{ [key: string]: IJournal[] }>();
   const [currentMonth, setCurrentMonth] = useState(0); // Current month, 0 = January
   const [yearCompleted, setYearCompleted] = useState(false); // Track when year ends
@@ -37,13 +35,6 @@ const PlanTrip = () => {
 
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const progress = (currentMonth / (MONTHS.length - 1)) * 100;
-
-  const fetchPlanetBodies = async () => {
-    const apiUrl = `/api/planets`;
-    const response = await fetch(apiUrl);
-    const json = await response.json();
-    return json;
-  };
 
   const {
     selectedItems: selectedPlanets,
@@ -56,7 +47,7 @@ const PlanTrip = () => {
     localStorage.setItem("journal", "");
   };
 
-  const simulateLaunchForMonth = async (monthIndex: number, selectedPlanets: IPlanet[]) => {
+  const simulateLaunchForMonth = async (monthIndex: number, selectedPlanets: IPlanetBody[]) => {
     const journalData = await populateMonthlyData(selectedPlanets);
     setMonthlyData(prevData => ({
       ...prevData,
@@ -66,7 +57,7 @@ const PlanTrip = () => {
   };
 
   // Populate data for selected planets (simulating journal entry creation)
-  const populateMonthlyData = async (selectedPlanets: IPlanet[]) => {
+  const populateMonthlyData = async (selectedPlanets: IPlanetBody[]) => {
     const journalData: IJournal[] = [];
 
     for (const planet of selectedPlanets) {
@@ -122,17 +113,6 @@ const PlanTrip = () => {
     setIsLaunching(false);
     clearPlanetsSelection();
   };
-
-  useEffect(() => {
-    fetchPlanetBodies()
-      .then(data => {
-        /* TODO: Randomly select 30 to choose from */
-        setPlanets(data.splice(0, 10));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
 
   useEffect(() => {
     if (!yearCompleted) return;

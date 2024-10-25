@@ -1,14 +1,11 @@
 import Image from "@/components/Image";
-
-interface IPlanet {
-  [key: string]: string;
-}
+import { IPlanetBody } from "@/hooks/usePlanets";
 
 interface IJournal {
   planet: string;
   tripDate: string;
   images: { [key: string]: string }[];
-  data?: IPlanet;
+  data?: IPlanetBody;
 }
 
 type IProps = {

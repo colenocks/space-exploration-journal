@@ -1,7 +1,8 @@
+import { IPlanetBody } from "@/hooks/usePlanets";
 import { Link } from "react-router-dom";
 
 type IProps = {
-  planets: { [key: string]: string }[];
+  planets: IPlanetBody[];
 };
 
 const PlanetsTable = ({ planets }: IProps) => {

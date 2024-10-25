@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Home from "./components/Home";
 import PlanTrip from "./pages/PlanTrip";
@@ -8,17 +8,15 @@ import SpaceTripsChart from "./pages/SpaceTripsChart";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Dashboard />}>
-          <Route index element={<Home />} />
-          <Route path='/plan' element={<PlanTrip />} />
-          <Route path='/planets' element={<PlanetList />} />
-          <Route path='/planets/:id' element={<PlanetDetails />} />
-          <Route path='/charts' element={<SpaceTripsChart />} />
-        </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path='/' element={<Dashboard />}>
+        <Route index element={<Home />} />
+        <Route path='/plan' element={<PlanTrip />} />
+        <Route path='/planets' element={<PlanetList />} />
+        <Route path='/planets/:id' element={<PlanetDetails />} />
+        <Route path='/charts' element={<SpaceTripsChart />} />
+      </Route>
+    </Routes>
   );
 }
 

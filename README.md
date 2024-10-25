@@ -80,8 +80,8 @@ This will start the development server, and you can access the application at ht
 
 ## APIs Used
 
-Planetary Systems API: To gather data about the planets.
-APOD API: To show a relevant image of the planet or something related to space.
+[Planetary Systems API](https://api.le-systeme-solaire.net/): To gather data about the planets.
+[APOD API](https://api.nasa.gov/planetary/apod): To show a relevant image of the planet or something related to space.
 
 ## How to Use
 
