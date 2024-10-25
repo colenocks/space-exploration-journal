@@ -6,7 +6,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import App from "./App.tsx";
 import "./index.css";
 
-const queryClient = new QueryClient();
+const MINUTE = 60 * 1000;
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 3, gcTime: 10 * MINUTE, staleTime: 10 * MINUTE, refetchOnMount: false } },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
