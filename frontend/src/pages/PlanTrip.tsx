@@ -3,14 +3,14 @@ import { FaRocket, FaTimeline } from "react-icons/fa6";
 import { Progress } from "@/components/ui/progress";
 import LaunchAnimation from "@/components/LaunchAnimation";
 import JournalEntries from "@/components/JournalEntries";
-import { useRandomItemSelector } from "@/lib/useRandomSelector";
+import { useRandomItemSelector } from "@/hooks/useRandomSelector";
 import usePlanets, { IPlanetBody } from "@/hooks/usePlanets";
 
 interface IJournal {
   planet: string;
   tripDate: string;
   images: { [key: string]: string }[];
-  data: IPlanetBody;
+  data?: IPlanetBody;
 }
 
 async function fetchAPODImages(count?: number) {
@@ -40,7 +40,7 @@ const PlanTrip = () => {
     selectedItems: selectedPlanets,
     selectRandomItems: selectRandomPlanets,
     clearSelection: clearPlanetsSelection,
-  } = useRandomItemSelector(planets);
+  } = useRandomItemSelector(planets ?? []);
 
   const resetJournalData = () => {
     setMonthlyData({});
