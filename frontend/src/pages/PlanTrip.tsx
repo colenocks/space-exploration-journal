@@ -1,39 +1,32 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { FaRocket, FaTimeline } from "react-icons/fa6";
 import { Progress } from "@/components/ui/progress";
 import LaunchAnimation from "@/components/LaunchAnimation";
 import JournalEntries from "@/components/JournalEntries";
 import { useRandomItemSelector } from "@/hooks/useRandomSelector";
 import usePlanets, { IPlanetBody } from "@/hooks/usePlanets";
-import APIClient from "@/services/api-client";
-
-interface APODImage {
-  url: string;
-  date: string;
-  explanation: string;
-  hdurl: string;
-  title: string;
-}
+import useAPODImages, { IAPODImage } from "@/hooks/useAPODImages";
 
 export interface IJournal {
   planetName: string;
   tripDate: string;
-  images: APODImage[];
+  images: IAPODImage[];
   data: IPlanetBody;
 }
+// Helper function to add delay
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const PlanTrip = () => {
-  const { data: planets } = usePlanets();
-
   const [monthlyData, setMonthlyData] = useState<{ [key: string]: IJournal[] }>();
   const [currentMonth, setCurrentMonth] = useState(0); // Current month, 0 = January
   const [yearCompleted, setYearCompleted] = useState(false); // Track when year ends
   const [isLaunching, setIsLaunching] = useState(false);
   const [isTimeTravelling, setTimeTravel] = useState(false);
 
-  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const progress = (currentMonth / (MONTHS.length - 1)) * 100;
 
+  const { data: planets } = usePlanets();
   const {
     selectedItems: selectedPlanets,
     selectRandomItems: selectRandomPlanets,
@@ -54,26 +47,30 @@ const PlanTrip = () => {
     clearPlanetsSelection();
   };
 
-  const apiClient = useRef(new APIClient<APODImage>("/apod"));
+  const IMAGES_COUNT = 30;
+  const MAX_IMAGES_PER_VISIT = 10;
+  const { data: apodImagesList } = useAPODImages(IMAGES_COUNT);
+  const { selectRandomItems: selectRandomAPODImages, clearSelection: clearAPODImagesSelection } = useRandomItemSelector<IAPODImage>(
+    apodImagesList?.map(img => ({ ...img, id: img.url })) ?? [],
+    MAX_IMAGES_PER_VISIT,
+    IMAGES_COUNT
+  );
+
   const populateMonthlyData = async (selectedPlanets: IPlanetBody[]) => {
     const journalData: IJournal[] = [];
-    const MAX_NO_OF_IMAGES = 10;
 
     for (const planet of selectedPlanets) {
       const tripDate = new Date().toLocaleString();
-      const numberOfImages = Math.floor(Math.random() * MAX_NO_OF_IMAGES) + 1; // Random number of images to fetch
-
-      const apodImages = await apiClient.current.getAll({
-        params: { count: numberOfImages },
-      });
+      const apodImages = selectRandomAPODImages();
 
       journalData.push({
         planetName: planet.name,
         tripDate,
-        images: apodImages,
+        images: apodImages!,
         data: planet,
       });
     }
+    clearAPODImagesSelection();
     return journalData;
   };
 
@@ -87,6 +84,7 @@ const PlanTrip = () => {
     for (let monthIndex = 0; monthIndex < MONTHS.length; monthIndex++) {
       const randomPlanets = selectRandomPlanets();
       await simulateLaunchForMonth(monthIndex, randomPlanets!);
+      await delay(600); // Delay for 600ms - for effects
       setCurrentMonth(monthIndex + 1);
     }
 
@@ -97,11 +95,14 @@ const PlanTrip = () => {
   // Handle button click to manually launch for one month
   const handleLaunchClick = async () => {
     if (!selectedPlanets.length && isLaunching) return;
-
+    if (currentMonth === 11) {
+      setYearCompleted(true); // Mark year as completed
+    }
     setIsLaunching(true);
 
     await simulateLaunchForMonth(currentMonth, selectedPlanets);
-    if (currentMonth == 0) {
+    await delay(600); // Delay for effects
+    if (currentMonth === 0) {
       resetJournalData();
     }
     setCurrentMonth(prev => prev + 1);
@@ -110,16 +111,25 @@ const PlanTrip = () => {
   };
 
   useEffect(() => {
-    if (!yearCompleted) return;
-    // save journal entries to local storage (overwrite existing)
-    localStorage.setItem("journal", JSON.stringify(monthlyData));
-  }, [monthlyData, yearCompleted]);
-
-  useEffect(() => {
     if (isTimeTravelling) {
       timeTravelThroughYear();
     }
   }, [isTimeTravelling]);
+
+  // Save journal entries to local storage (overwrite existing)
+  useEffect(() => {
+    if (!yearCompleted) return;
+    localStorage.setItem("journal", JSON.stringify(monthlyData));
+  }, [monthlyData, yearCompleted]);
+
+  // Retrieve saved journal entries from cache
+  useEffect(() => {
+    const savedJournal = localStorage.getItem("journal");
+    if (!savedJournal) return;
+
+    setMonthlyData(JSON.parse(savedJournal));
+    setYearCompleted(true);
+  }, []);
 
   return (
     <div>

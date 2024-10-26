@@ -13,10 +13,10 @@ const SpaceTripsChart = () => {
   useEffect(() => {
     const entries = localStorage.getItem("journal");
 
-    if (entries) {
-      const journalData: { [key: string]: IJournal[] } = JSON.parse(entries);
-      setJournalEntries(journalData);
-    }
+    if (!entries) return;
+
+    const journalData: { [key: string]: IJournal[] } = JSON.parse(entries);
+    setJournalEntries(journalData);
   }, []);
 
   // Data processing
