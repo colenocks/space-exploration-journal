@@ -13,8 +13,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/backend/src/main.ts"
+      "dest": "/"
     }
-  ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  ]
 }
