@@ -1,11 +1,20 @@
 import { useState } from "react";
 
-interface IItem {
-  id: string
+function shuffleItems<T>(items: T[], selectionCount: number): T[] {
+  // Shuffle using Fisher-Yates algorithm
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  // Return the first `selectionCount` items from the shuffled array
+  return shuffled.slice(0, Math.min(items.length, selectionCount));
 }
 
-export const useRandomItemSelector = <T extends IItem>(items: T[], maxSelections = 7) => {
+export const useRandomItemSelector = <T extends { id: string }>(items: T[], maxSelections = 4, count = 12) => {
   const [selectedItems, setSelectedItems] = useState<T[]>([]);
+  const totalShuffledItems = shuffleItems(items, count)
 
   const selectRandomItems = () => {
     const minSelections = 1;
@@ -16,8 +25,8 @@ export const useRandomItemSelector = <T extends IItem>(items: T[], maxSelections
 
     // Keep selecting random items until we've selected `numSelections` items
     while (randomItems.length < numSelections) {
-      const randomIndex = Math.floor(Math.random() * items.length);
-      const selectedItem = items[randomIndex];
+      const randomIndex = Math.floor(Math.random() * totalShuffledItems.length);
+      const selectedItem = totalShuffledItems[randomIndex];
 
       if (!selectedItem) return
 
