@@ -21,8 +21,6 @@ export interface IJournal {
   images: APODImage[];
   data: IPlanetBody;
 }
-// Helper function to add delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const PlanTrip = () => {
   const { data: planets } = usePlanets();
@@ -89,7 +87,6 @@ const PlanTrip = () => {
     for (let monthIndex = 0; monthIndex < MONTHS.length; monthIndex++) {
       const randomPlanets = selectRandomPlanets();
       await simulateLaunchForMonth(monthIndex, randomPlanets!);
-      await delay(400); // Delay between months (400ms for example)
       setCurrentMonth(monthIndex + 1);
     }
 
@@ -198,6 +195,3 @@ const PlanTrip = () => {
 };
 
 export default PlanTrip;
-function ref(arg0: APIClient<APODImage>) {
-  throw new Error("Function not implemented.");
-}
