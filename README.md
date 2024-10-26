@@ -8,8 +8,8 @@ This is implemented using NASA's APIs with React (Typescript) in the frontend an
 
 ## Features
 
-- Select multiple planets for exploration using a user-friendly dropdown.
-- Simulate rocket launches for each selected planet, recording the date and time of each trip.
+- Select multiple planets to explore using a user-friendly dropdown or a random select generator.
+- Simulate rocket launches for the selected planet, recording the date and time of each trip.
 - Collect and visualize data through stacked bar charts using Chart.js.
 - Display the most visited planets and the total number of images collected each month.
 
@@ -46,6 +46,7 @@ For backend
 ```bash
 VITE_NASA_API_KEY="Enter Your API  key"
 VITE_SOLAR_SYSTEM_URL=https://api.le-systeme-solaire.net/rest/bodies
+VITE_NASA_APOD_URL=https://api.nasa.gov/planetary/apod
 ```
 
 ### Installation
@@ -80,12 +81,12 @@ This will start the development server, and you can access the application at ht
 
 ## APIs Used
 
-[Planetary Systems API](https://api.le-systeme-solaire.net/): To gather data about the planets.
+[Planetary Systems API](https://api.le-systeme-solaire.net): To gather data about the planetary bodies in the solar system.
 [APOD API](https://api.nasa.gov/planetary/apod): To show a relevant image of the planet or something related to space.
 
 ## How to Use
 
-1. Select Planets: Use the dropdown menu to select multiple planets for your exploration trip.
+1. Select planets: Use either the dropdown menu to select planets or generate randomly.
 2. Launch: Click the launch button (rocket icon) to simulate the trips. Each trip will be recorded with the date and time.
 3. Visualize Data: After launching, navigate to the visualization page to see stacked bar charts that display:
    - The most visited planets per month.

@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaRocket, FaTimeline } from "react-icons/fa6";
 import { Progress } from "@/components/ui/progress";
 import LaunchAnimation from "@/components/LaunchAnimation";
 import JournalEntries from "@/components/JournalEntries";
 import { useRandomItemSelector } from "@/hooks/useRandomSelector";
 import usePlanets, { IPlanetBody } from "@/hooks/usePlanets";
+import APIClient from "@/services/api-client";
 
-interface IJournal {
-  planet: string;
+interface APODImage {
+  url: string;
+  date: string;
+  explanation: string;
+  hdurl: string;
+  title: string;
+}
+
+export interface IJournal {
+  planetName: string;
   tripDate: string;
-  images: { [key: string]: string }[];
-  data?: IPlanetBody;
+  images: APODImage[];
+  data: IPlanetBody;
 }
-
-async function fetchAPODImages(count?: number) {
-  if (!count) return [];
-  const apiUrl = `/api/apod/${count}`;
-  const response = await fetch(apiUrl);
-  const json = await response.json();
-  return json;
-}
-
 // Helper function to add delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -40,7 +40,7 @@ const PlanTrip = () => {
     selectedItems: selectedPlanets,
     selectRandomItems: selectRandomPlanets,
     clearSelection: clearPlanetsSelection,
-  } = useRandomItemSelector(planets ?? []);
+  } = useRandomItemSelector<IPlanetBody>(planets ?? []);
 
   const resetJournalData = () => {
     setMonthlyData({});
@@ -56,26 +56,25 @@ const PlanTrip = () => {
     clearPlanetsSelection();
   };
 
-  // Populate data for selected planets (simulating journal entry creation)
+  const apiClient = useRef(new APIClient<APODImage>("/apod"));
   const populateMonthlyData = async (selectedPlanets: IPlanetBody[]) => {
     const journalData: IJournal[] = [];
+    const MAX_NO_OF_IMAGES = 10;
 
     for (const planet of selectedPlanets) {
       const tripDate = new Date().toLocaleString();
-      const number = Math.floor(Math.random() * 10) + 1; // Random number of images to fetch
+      const numberOfImages = Math.floor(Math.random() * MAX_NO_OF_IMAGES) + 1; // Random number of images to fetch
 
-      try {
-        const apodImages = await fetchAPODImages(number);
-        // Push the journal entry for the current planet
-        journalData.push({
-          planet: planet.name,
-          tripDate,
-          images: apodImages,
-          data: planet,
-        });
-      } catch (error) {
-        console.error("Failed to fetch APOD images:", error);
-      }
+      const apodImages = await apiClient.current.getAll({
+        params: { count: numberOfImages },
+      });
+
+      journalData.push({
+        planetName: planet.name,
+        tripDate,
+        images: apodImages,
+        data: planet,
+      });
     }
     return journalData;
   };
@@ -88,7 +87,6 @@ const PlanTrip = () => {
 
     // Travel through all months
     for (let monthIndex = 0; monthIndex < MONTHS.length; monthIndex++) {
-      //   setCurrentMonth(monthIndex);
       const randomPlanets = selectRandomPlanets();
       await simulateLaunchForMonth(monthIndex, randomPlanets!);
       await delay(400); // Delay between months (400ms for example)
@@ -155,12 +153,12 @@ const PlanTrip = () => {
                         <span
                           key={planet.id}
                           className='flex items-center bg-neutral-800 text-cyan-300 px-2 py-1 cursor-default rounded-full text-sm transition-all ease-out'>
-                          {planet.name}
+                          {planet.englishName}
                         </span>
                       ))}
                     </div>
                     <div className='text-sm bg-neutral-500 w-fit px-1 rounded font-bold'>
-                      You have selected {selectedPlanets.length} destinations to visit in {MONTHS[currentMonth]}.{" "}
+                      You have selected {selectedPlanets.length} destinations to visit in {MONTHS[currentMonth]}.
                     </div>
                   </div>
                 </div>
@@ -200,3 +198,6 @@ const PlanTrip = () => {
 };
 
 export default PlanTrip;
+function ref(arg0: APIClient<APODImage>) {
+  throw new Error("Function not implemented.");
+}

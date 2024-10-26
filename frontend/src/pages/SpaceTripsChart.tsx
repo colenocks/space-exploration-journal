@@ -2,20 +2,10 @@ import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, ChartOptions, ScriptableContext } from "chart.js";
 import type { ChartData } from "chart.js";
+import { IJournal } from "./PlanTrip";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-interface IPlanet {
-  [key: string]: string;
-}
-
-interface IJournal {
-  planet: string;
-  tripDate: string;
-  images: { [key: string]: string }[];
-  data?: IPlanet;
-}
 
 const SpaceTripsChart = () => {
   const [journalEntries, setJournalEntries] = useState<{ [key: string]: IJournal[] }>({});
@@ -35,11 +25,11 @@ const SpaceTripsChart = () => {
 
   // Initialize planet counts per month
   months.forEach(month => {
-    journalEntries[month].forEach(({ planet }) => {
-      if (!planetsVisitCount[planet]) {
-        planetsVisitCount[planet] = {};
+    journalEntries[month]?.forEach(({ planetName }) => {
+      if (!planetsVisitCount[planetName]) {
+        planetsVisitCount[planetName] = {};
       }
-      planetsVisitCount[planet][month] = (planetsVisitCount[planet][month] || 0) + 1;
+      planetsVisitCount[planetName][month] = (planetsVisitCount[planetName][month] || 0) + 1;
     });
   });
 

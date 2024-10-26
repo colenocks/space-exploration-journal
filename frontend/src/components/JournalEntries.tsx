@@ -1,12 +1,5 @@
 import Image from "@/components/Image";
-import { IPlanetBody } from "@/hooks/usePlanets";
-
-interface IJournal {
-  planet: string;
-  tripDate: string;
-  images: { [key: string]: string }[];
-  data?: IPlanetBody;
-}
+import { IJournal } from "../pages/PlanTrip";
 
 type IProps = {
   entries: { [key: string]: IJournal[] };
@@ -24,9 +17,9 @@ const JournalEntries = ({ entries }: IProps) => {
                 <h2 className='text-lg font-bold text-cyan-700 mb-1'>{month} Trips</h2>
                 <ul className='text-white'>
                   {entries[month].map((entry, i) => (
-                    <li key={entry.planet + i} className='py-2'>
+                    <li key={entry.planetName + i} className='py-2'>
                       <div>
-                        Trip to <strong>{entry.planet}</strong> - {entry.tripDate}
+                        Trip to <strong>{entry.planetName}</strong> - {entry.tripDate}
                       </div>
                       <div className='flex gap-2 flex-wrap ml-8'>
                         {entry.images?.map(entryImage => {
