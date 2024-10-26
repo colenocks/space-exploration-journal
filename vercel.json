@@ -15,5 +15,6 @@
       "src": "/(.*)",
       "dest": "/backend/src/main.ts"
     }
-  ]
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
