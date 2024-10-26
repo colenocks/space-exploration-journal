@@ -16,7 +16,7 @@ export default defineConfig((env) => {
     base: './',
     plugins: [react()],
     build: {
-      outDir: "../backend/public",
+      outDir: "./dist",
     },
     resolve: {
       alias: {

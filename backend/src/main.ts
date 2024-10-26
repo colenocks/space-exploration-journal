@@ -24,9 +24,6 @@ app.get('/api/apod', async (req: Request, res: Response) => {
     res.status(200).json(data);
 })
 
-// Serve static files from the public directory (built by Vite)
-app.use(express.static(path.join(__dirname, '../public')));
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
