@@ -32,9 +32,9 @@ export default defineConfig((env) => {
      When we send a request to http://localhost:5000/api it will be forwarded 
      to our server at http://localhost:3001/api.
       */
-      proxy: {
+      proxy: env.mode === 'development' ? {
         [serverAPIPath]: serverURL.origin
-      }
+      } : undefined
     },
   }
 })
