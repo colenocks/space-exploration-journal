@@ -8,20 +8,30 @@ import { fetchAllBodies, fetchAPOD } from "./controller"
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.VITE_SERVER_URL }));
 
 const PORT = process.env.PORT || 5000;
 
 app.get('/api/planets', async (req: Request, res: Response) => {
-    const data = await fetchAllBodies({ params: req.query });
-    res.status(200).json(data);
+    try {
+        const data = await fetchAllBodies({ params: req.query });
+        res.status(200).json(data);
+    } catch (error) {
+        console.error('Error fetching planets:', error);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 app.get('/api/apod', async (req: Request, res: Response) => {
-    const data = await fetchAPOD({ params: req.query });
-    res.status(200).json(data);
+    try {
+        const data = await fetchAPOD({ params: req.query });
+        res.status(200).json(data);
+    } catch (error) {
+        console.error('Error fetching APODS:', error);
+        res.status(500).send('Internal Server Error');
+    }
 })
 
 app.listen(PORT, () => {
