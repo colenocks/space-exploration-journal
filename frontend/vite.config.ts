@@ -16,7 +16,7 @@ export default defineConfig((env) => {
     base: './',
     plugins: [react()],
     build: {
-      outDir: "./dist",
+      outDir: "dist",
     },
     resolve: {
       alias: {
@@ -24,16 +24,16 @@ export default defineConfig((env) => {
       },
     },
     server: {
-      port: Number(process.env.PORT) ?? 3001,
+      port: Number(process.env.PORT) || 3000,
 
       /* 
-      The proxy setting enables communication between the frontend and the backend. 
-      Requests matching the API path are forwarded to the server URL. 
-      When we send a request to http://localhost:5000/api it will be forwarded 
-      to our server at http://localhost:3001/api.
-       */
+     The proxy setting enables communication between the frontend and the backend. 
+     Requests matching the API path are forwarded to the server URL. 
+     When we send a request to http://localhost:5000/api it will be forwarded 
+     to our server at http://localhost:3001/api.
+      */
       proxy: {
-        [serverAPIPath]: serverURL.origin,
+        [serverAPIPath]: serverURL.origin
       }
     },
   }
