@@ -3,7 +3,7 @@
     "target": "ES6",
     "module": "commonjs",
     "skipLibCheck": true,
-    "rootDir": "src",
+    "rootDir": "/",
     "outDir": "dist", // Output directory for compiled JavaScript
     "sourceMap": true,
     "strict": true,
