@@ -6,10 +6,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig((env) => {
   const envars = loadEnv(env.mode, './');
 
-  const serverURL = new URL(
+  const SERVER_BASE_URL = new URL(
     envars.VITE_SERVER_URL ?? 'http://localhost:5000'
   );
-  const serverAPIPath = envars.VITE_SERVER_API_PATH ?? '/api';
+  const SERVER_API_PATH = envars.VITE_SERVER_API_PATH ?? '/api';
 
   return {
     envDir: './',
@@ -24,7 +24,7 @@ export default defineConfig((env) => {
       },
     },
     server: {
-      port: Number(process.env.PORT) || 3000,
+      port: Number(envars.VITE_PORT) || 3000,
 
       /* 
      The proxy setting enables communication between the frontend and the backend. 
@@ -32,9 +32,12 @@ export default defineConfig((env) => {
      When we send a request to http://localhost:5000/api it will be forwarded 
      to our server at http://localhost:3001/api.
       */
-      proxy: env.mode === 'development' ? {
-        [serverAPIPath]: serverURL.origin
-      } : undefined
+      proxy: {
+        [SERVER_API_PATH]: {
+          target: SERVER_BASE_URL,
+          changeOrigin: true,
+        },
+      },
     },
   }
 })
