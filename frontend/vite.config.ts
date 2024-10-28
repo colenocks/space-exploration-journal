@@ -6,10 +6,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig((env) => {
   const envars = loadEnv(env.mode, './');
 
-  const SERVER_BASE_URL = new URL(
-    envars.VITE_SERVER_URL ?? 'http://localhost:5000'
-  );
-  const SERVER_API_PATH = envars.VITE_SERVER_API_PATH ?? '/api';
+  const SERVER_BASE_URL = "https://space-journal-api.vercel.app"
+  const SERVER_API_PATH = envars.VITE_SERVER_API_PATH ?? '/api';;
 
   return {
     envDir: './',

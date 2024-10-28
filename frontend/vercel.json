@@ -5,5 +5,15 @@
       "src": "package.json",
       "use": "@vercel/static-build"
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://space-journal-api.vercel.app/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
