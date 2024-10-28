@@ -1,16 +1,15 @@
 
 import express, { Request, Response } from 'express';
-import path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
 
-import { fetchAllBodies, fetchAPOD } from "./controller"
+import { fetchAllBodies, fetchAPOD } from "./src/controller"
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 const PORT = process.env.PORT || 5000;
 
